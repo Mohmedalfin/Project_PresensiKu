@@ -1,6 +1,20 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.26/webcam.min.js"
     integrity="sha512-dQIiHSl2hr3NWKKLycPndtpbh5iaHLo6MwrXm7F0FM5e+kL2U16oE9uIwPHUl6fQBeCthiEuV/rzP3MiAB8Vfw=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+<style>
+#map {
+    height: 338px;
+}
+</style>
+
+
 <?php
 ob_start();
 session_start();
@@ -40,51 +54,102 @@ $jarak_meter = $jarak_km * 1000;
 ?>
 
 <?php if ($jarak_meter > $radius) { ?>
-    <?=
+<?=
         $_SESSION['Gagal'] = "Anda berada di luar area kantor";
     header("Location: ../home/home.php");
     exit;
 ?>
 <?php } else { ?>
-    <div class="page-body">
-        <div class="container-xl">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <iframe
-                                src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d19623.044937042283!2d<?= $longitude_pegawai ?>!3d<?= $latitude_pegawai ?>!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zN8KwNDQnMzYuNyJTIDExMMKwMjEnNDAuNyJF!5e1!3m2!1sid!2sid!4v1748425572998!5m2!1sid!2sid"
-                                width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"
-                                referrerpolicy="no-referrer-when-downgrade"></iframe>
-                        </div>
+<div class="page-body">
+    <div class="container-xl">
+        <div class="row">
+            <!-- Kolom Google Maps -->
+            <div class="col-md-6 ">
+                <div class="card">
+                    <div class="card-body">
+                        <div id="map"></div>
+
                     </div>
                 </div>
-                <div class="col-md-6 rounded">
-                    <div class="card text-center">
-                        <div class="card-body" style="margin: auto;">
-                            <div id="my_camera" style="width:320px; height:240px;"></div>
-                            <div id="my_result"></div>
-                            <div class="mt-3"> <?= $tanggal_masuk . '-' . $jam_masuk ?></div>
-                            <button class="btn btn-primary mt-3" id="ambil-foto">Masuk</button>
+            </div>
+            <!-- Kolom Kamera dan Informasi -->
+            <div class="col-md-6">
+                <div class="card text-center rounded">
+                    <div class="card-body  mt-2" style="margin: auto;">
+                        <input type="hidden" id="id" value="<?= $_SESSION['id'] ?>">
+                        <input type="hidden" id="tanggal_masuk" value="<?= $tanggal_masuk ?>">
+                        <input type="hidden" id="jam_masuk" value="<?= $jam_masuk ?>">
+                        <div id="my_camera">
                         </div>
+                        <div id="my_result"></div>
+                        <div class="mt-3">
+                            <?= date('d F Y', strtotime($tanggal_masuk)) . ' - ' . $jam_masuk ?>
+                        </div>
+                        <button class="btn btn-primary mt-3" id="ambil-foto">Masuk</button>
                     </div>
                 </div>
-
-                <script language="JavaScript">
-                    Webcam.attach('#my_camera');
-
-                    function take_snapshot() {
-                        Webcam.snap(function (data_uri) {
-                            document.getElementById('my_result').innerHTML = '<img src="' + data_uri +
-                                '"/>';
-                        });
-                    }
-                </script>
-                <a href="javascript:void(take_snapshot())">Take Snapshot</a>
-
             </div>
         </div>
     </div>
+</div>
+
+<script language="JavaScript">
+Webcam.set({
+    width: 320,
+    height: 240,
+    dest_width: 320,
+    dest_height: 240,
+    image_format: 'jpeg',
+    jpeg_quality: 90,
+    force_flash: false
+});
+Webcam.attach('#my_camera');
+
+document.getElementById('ambil-foto').addEventListener('click', function() {
+
+    let id = document.getElementById('id').value;
+    let tanggal_masuk = document.getElementById('tanggal_masuk').value;
+    let jam_masuk = document.getElementById('jam_masuk').value;
+
+    Webcam.snap(function(data_uri) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            document.getElementById('my_result').innerHTML = '<img src="' + data_uri + '"/>';
+            if (xhttp.readyState == 4 && xhttp.status == 200) {
+                window.location.href = '../home/home.php';
+            }
+        };
+        xhttp.open("POST", "presensi_masuk_aksi.php", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send(
+            'photo=' + encodeURIComponent(data_uri) +
+            '&id=' + encodeURIComponent(id) +
+            '&tanggal_masuk=' + encodeURIComponent(tanggal_masuk) +
+            '&jam_masuk=' + encodeURIComponent(jam_masuk)
+        );
+    });
+});
+// leaflet js
+let latitude_ktr = <?= $latitude_kantor ?>;
+let longitude_ktr = <?= $longitude_kantor ?>;
+let latitude_peg = <?= $latitude_pegawai ?>;
+let longitude_peg = <?= $longitude_pegawai ?>;
+let map = L.map('map').setView([latitude_ktr, longitude_ktr], 13);
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+}).addTo(map);
+
+var marker = L.marker([latitude_ktr, longitude_ktr]).addTo(map);
+
+var circle = L.circle([latitude_peg, longitude_peg], {
+    color: 'red',
+    fillColor: '#f03',
+    fillOpacity: 0.5,
+    radius: 500
+}).addTo(map).bindPopup("Lokasi anda saat ini");
+</script>
+<!-- <a href="javascript:void(take_snapshot())">Take Snapshot</a> -->
 <?php } ?>
 
 <?php include('../layout/footer.php'); ?>

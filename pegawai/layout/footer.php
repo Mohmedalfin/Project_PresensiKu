@@ -57,6 +57,30 @@
 <!-- CDN JS Switch ALert -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+<!-- Alert berhasil -->
+<?php if (isset($_SESSION['berhasil'])): ?>
+
+<script>
+const berhasil = Swal.mixin({
+    toast: true,
+    position: "top",
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+        toast.onmouseenter = Swal.stopTimer;
+        toast.onmouseleave = Swal.resumeTimer;
+    }
+});
+berhasil.fire({
+    icon: "success",
+    title: "<?= $_SESSION['berhasil'] ?>"
+});
+</script>
+<?php unset($_SESSION['berhasil']); ?>
+<?php endif; ?>
+
+<!-- Gagal Alert -->
 <?php if (isset($_SESSION['Gagal'])) { ?>
 <script>
 Swal.fire({
