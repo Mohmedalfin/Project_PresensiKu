@@ -35,23 +35,23 @@ if ($zona_waktu == 'WIB') {
 
 
 <style>
-.parent_date {
-    display: grid;
-    grid-template-columns: auto auto auto auto auto;
-    font-size: 20px;
-    text-align: center;
+    .parent_date {
+        display: grid;
+        grid-template-columns: auto auto auto auto auto;
+        font-size: 20px;
+        text-align: center;
 
-    justify-content: center;
-}
+        justify-content: center;
+    }
 
-.parent_clock {
-    display: grid;
-    grid-template-columns: auto auto auto auto auto;
-    font-size: 30px;
-    text-align: center;
-    font-weight: bold;
-    justify-content: center;
-}
+    .parent_clock {
+        display: grid;
+        grid-template-columns: auto auto auto auto auto;
+        font-size: 30px;
+        text-align: center;
+        font-weight: bold;
+        justify-content: center;
+    }
 </style>
 <!-- Page body -->
 <div class="page-body">
@@ -121,60 +121,60 @@ if ($zona_waktu == 'WIB') {
 </div>
 
 <script>
-window.setTimeout("waktuMasuk()", 1000);
+    window.setTimeout("waktuMasuk()", 1000);
 
 
-function waktuMasuk() {
-    const waktu = new Date();
-    const namabulan = [
-        "Januari", "Februari", "Maret", "April", "Mei", "Juni",
-        "Juli", "Agustus", "September", "Oktober", "November", "Desember"
-    ];
+    function waktuMasuk() {
+        const waktu = new Date();
+        const namabulan = [
+            "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+            "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+        ];
 
-    document.getElementById("tanggal_masuk").innerHTML = waktu.getDate();
-    document.getElementById("bulan_masuk").innerHTML = namabulan[waktu.getMonth()];
-    document.getElementById("tahun_masuk").innerHTML = waktu.getFullYear();
-    document.getElementById("jam_masuk").innerHTML = waktu.getHours().toString().padStart(2, '0');
-    document.getElementById("menit_masuk").innerHTML = waktu.getMinutes().toString().padStart(2, '0');
-    document.getElementById("detik_masuk").innerHTML = waktu.getSeconds().toString().padStart(2, '0');
+        document.getElementById("tanggal_masuk").innerHTML = waktu.getDate();
+        document.getElementById("bulan_masuk").innerHTML = namabulan[waktu.getMonth()];
+        document.getElementById("tahun_masuk").innerHTML = waktu.getFullYear();
+        document.getElementById("jam_masuk").innerHTML = waktu.getHours().toString().padStart(2, '0');
+        document.getElementById("menit_masuk").innerHTML = waktu.getMinutes().toString().padStart(2, '0');
+        document.getElementById("detik_masuk").innerHTML = waktu.getSeconds().toString().padStart(2, '0');
 
-    setTimeout(waktuMasuk, 1000);
-}
-
-window.setTimeout("waktuKeluar()", 1000);
-
-function waktuKeluar() {
-    const waktu = new Date();
-
-    const namabulan = [
-        "Januari", "Februari", "Maret", "April", "Mei", "Juni",
-        "Juli", "Agustus", "September", "Oktober", "November", "Desember"
-    ];
-
-    document.getElementById("tanggal_keluar").innerHTML = waktu.getDate();
-    document.getElementById("bulan_keluar").innerHTML = namabulan[waktu.getMonth()];
-    document.getElementById("tahun_keluar").innerHTML = waktu.getFullYear();
-    document.getElementById("jam_keluar").innerHTML = waktu.getHours().toString().padStart(2, '0');
-    document.getElementById("menit_keluar").innerHTML = waktu.getMinutes().toString().padStart(2, '0');
-    document.getElementById("detik_keluar").innerHTML = waktu.getSeconds().toString().padStart(2, '0');
-
-    setTimeout(waktuKeluar, 1000);
-}
-
-getLocation();
-
-function getLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
-    } else {
-        alert('Browser Anda tidak mendukung');
+        setTimeout(waktuMasuk, 1000);
     }
-}
 
-function showPosition(position) {
-    $('#latitude_pegawai').val(position.coords.latitude);
-    $('#longitude_pegawai').val(position.coords.longitude);
-}
+    window.setTimeout("waktuKeluar()", 1000);
+
+    function waktuKeluar() {
+        const waktu = new Date();
+
+        const namabulan = [
+            "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+            "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+        ];
+
+        document.getElementById("tanggal_keluar").innerHTML = waktu.getDate();
+        document.getElementById("bulan_keluar").innerHTML = namabulan[waktu.getMonth()];
+        document.getElementById("tahun_keluar").innerHTML = waktu.getFullYear();
+        document.getElementById("jam_keluar").innerHTML = waktu.getHours().toString().padStart(2, '0');
+        document.getElementById("menit_keluar").innerHTML = waktu.getMinutes().toString().padStart(2, '0');
+        document.getElementById("detik_keluar").innerHTML = waktu.getSeconds().toString().padStart(2, '0');
+
+        setTimeout(waktuKeluar, 1000);
+    }
+
+    getLocation();
+
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            alert('Browser Anda tidak mendukung');
+        }
+    }
+
+    function showPosition(position) {
+        $('#latitude_pegawai').val(position.coords.latitude);
+        $('#longitude_pegawai').val(position.coords.longitude);
+    }
 </script>
 
 <?php include('../layout/footer.php'); ?>

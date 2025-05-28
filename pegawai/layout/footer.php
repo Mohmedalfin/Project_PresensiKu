@@ -53,6 +53,20 @@
 <!-- Tabler Core -->
 <script src="<?= base_url('presensi/js/tabler.min.js?1738096685') ?>" defer></script>
 <script src="<?= base_url('presensi/js/demo.min.js?1738096685') ?>" defer></script>
+
+<!-- CDN JS Switch ALert -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<?php if (isset($_SESSION['Gagal'])) { ?>
+<script>
+Swal.fire({
+    icon: "error",
+    title: "Oops..",
+    text: "<?= $_SESSION['Gagal'] ?>",
+});
+</script>
+<?php unset($_SESSION['Gagal']); ?>
+<?php } ?>
 </body>
 
 </html>
