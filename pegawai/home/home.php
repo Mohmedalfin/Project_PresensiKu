@@ -10,129 +10,171 @@ if (!isset($_SESSION["login"])) {
 }
 
 
-include('../layout/header.php'); ?>
+include('../layout/header.php');
+include_once('../../config.php');
 
+
+$lokasi_presensi = $_SESSION['lokasi_presensi'];
+$result = mysqli_query($connection, "SELECT * FROM lokasi_presensi WHERE nama_lokasi = '$lokasi_presensi'");
+
+while ($lokasi = mysqli_fetch_array($result)) {
+    $latitude_kantor = $lokasi['latitude'];
+    $longitude_kantor = $lokasi['longitude'];
+    $radius = $lokasi['radius'];
+    $zona_waktu = $lokasi['zona_waktu'];
+}
+
+if ($zona_waktu == 'WIB') {
+    date_default_timezone_set('Asia/Jakarta');
+} elseif ($zona_waktu == 'WITA') {
+    date_default_timezone_set('Asia/Makassar');
+} elseif ($zona_waktu == 'WIT') {
+    date_default_timezone_set('Asia/Jayapura');
+}
+?>
+
+
+<style>
+.parent_date {
+    display: grid;
+    grid-template-columns: auto auto auto auto auto;
+    font-size: 20px;
+    text-align: center;
+
+    justify-content: center;
+}
+
+.parent_clock {
+    display: grid;
+    grid-template-columns: auto auto auto auto auto;
+    font-size: 30px;
+    text-align: center;
+    font-weight: bold;
+    justify-content: center;
+}
+</style>
 <!-- Page body -->
 <div class="page-body">
     <div class="container-xl">
-        <div class="row row-deck row-cards">
-            <div class="col-12">
-                <div class="row row-cards">
-                    <div class="col-sm-6 col-lg-3">
-                        <div class="card card-sm">
-                            <div class="card-body">
-                                <div class="row align-items-center">
-                                    <div class="col-auto">
-                                        <span class="bg-primary text-white avatar">
-                                            <!-- Download SVG icon from http://tabler.io/icons/icon/currency-dollar -->
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                stroke-linecap="round" stroke-linejoin="round" class="icon icon-1">
-                                                <path
-                                                    d="M16.7 8a3 3 0 0 0 -2.7 -2h-4a3 3 0 0 0 0 6h4a3 3 0 0 1 0 6h-4a3 3 0 0 1 -2.7 -2" />
-                                                <path d="M12 3v3m0 12v3" />
-                                            </svg>
-                                        </span>
-                                    </div>
-                                    <div class="col">
-                                        <div class="font-weight-medium">
-                                            132 Sales
-                                        </div>
-                                        <div class="text-secondary">
-                                            12 waiting payments
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">Presensi Masuk</div>
+                    <div class="card-body text-center">
+                        <div class="parent_date">
+                            <div id="tanggal_masuk"></div>
+                            <div class="ms-2"></div>
+                            <div id="bulan_masuk"></div>
+                            <div class="ms-2"></div>
+                            <div id="tahun_masuk"></div>
                         </div>
+                        <div class="parent_clock mb-3">
+                            <div id="jam_masuk"></div>
+                            <div>:</div>
+                            <div id="menit_masuk"></div>
+                            <div>:</div>
+                            <div id="detik_masuk"></div>
+                        </div>
+                        <form method="post" action="<?= base_url('pegawai/presensi/presensi_masuk.php') ?>">
+                            <input type="hidden" name="latitude_pegawai" id="latitude_pegawai">
+                            <input type="hidden" name="longitude_pegawai" id="longitude_pegawai">
+                            <input type="hidden" value="<?= $latitude_kantor ?>" name="latitude_kantor">
+                            <input type="hidden" value="<?= $longitude_kantor ?>" name="longitude_kantor">
+                            <input type="hidden" value="<?= $radius ?>" name="radius">
+                            <input type="hidden" value="<?= $zona_waktu ?>" name="zona_waktu">
+                            <input type="hidden" value="<?= date('Y-m-d') ?>" name="tanggal_masuk">
+                            <input type="hidden" value="<?= date('H:i:s') ?>" name="jam_masuk">
+                            <button class="btn btn-primary" name="tombol_masuk" type="submit">Masuk</button>
+                        </form>
                     </div>
-                    <div class="col-sm-6 col-lg-3">
-                        <div class="card card-sm">
-                            <div class="card-body">
-                                <div class="row align-items-center">
-                                    <div class="col-auto">
-                                        <span class="bg-green text-white avatar">
-                                            <!-- Download SVG icon from http://tabler.io/icons/icon/shopping-cart -->
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                stroke-linecap="round" stroke-linejoin="round" class="icon icon-1">
-                                                <path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                                                <path d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                                                <path d="M17 17h-11v-14h-2" />
-                                                <path d="M6 5l14 1l-1 7h-13" />
-                                            </svg>
-                                        </span>
-                                    </div>
-                                    <div class="col">
-                                        <div class="font-weight-medium">
-                                            78 Orders
-                                        </div>
-                                        <div class="text-secondary">
-                                            32 shipped
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">Presensi Keluar</div>
+                    <div class="card-body text-center">
+                        <div class="parent_date">
+                            <div id="tanggal_keluar"></div>
+                            <div class="ms-2"></div>
+                            <div id="bulan_keluar"></div>
+                            <div class="ms-2"></div>
+                            <div id="tahun_keluar"></div>
                         </div>
-                    </div>
-                    <div class="col-sm-6 col-lg-3">
-                        <div class="card card-sm">
-                            <div class="card-body">
-                                <div class="row align-items-center">
-                                    <div class="col-auto">
-                                        <span class="bg-x text-white avatar">
-                                            <!-- Download SVG icon from http://tabler.io/icons/icon/brand-x -->
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                stroke-linecap="round" stroke-linejoin="round" class="icon icon-1">
-                                                <path d="M4 4l11.733 16h4.267l-11.733 -16z" />
-                                                <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772" />
-                                            </svg>
-                                        </span>
-                                    </div>
-                                    <div class="col">
-                                        <div class="font-weight-medium">
-                                            623 Shares
-                                        </div>
-                                        <div class="text-secondary">
-                                            16 today
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="parent_clock mb-3">
+                            <div id="jam_keluar"></div>
+                            <div>:</div>
+                            <div id="menit_keluar"></div>
+                            <div>:</div>
+                            <div id="detik_keluar"></div>
                         </div>
-                    </div>
-                    <div class="col-sm-6 col-lg-3">
-                        <div class="card card-sm">
-                            <div class="card-body">
-                                <div class="row align-items-center">
-                                    <div class="col-auto">
-                                        <span class="bg-facebook text-white avatar">
-                                            <!-- Download SVG icon from http://tabler.io/icons/icon/brand-facebook -->
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                stroke-linecap="round" stroke-linejoin="round" class="icon icon-1">
-                                                <path
-                                                    d="M7 10v4h3v7h4v-7h3l1 -4h-4v-2a1 1 0 0 1 1 -1h3v-4h-3a5 5 0 0 0 -5 5v2h-3" />
-                                            </svg>
-                                        </span>
-                                    </div>
-                                    <div class="col">
-                                        <div class="font-weight-medium">
-                                            132 Likes
-                                        </div>
-                                        <div class="text-secondary">
-                                            21 today
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <form action="">
+                            <button class="btn btn-danger" type="submit">Keluar</button>
+                        </form>
                     </div>
                 </div>
             </div>
+            <div class="col-md-2"></div>-
         </div>
     </div>
 </div>
+
+<script>
+window.setTimeout("waktuMasuk()", 1000);
+
+
+function waktuMasuk() {
+    const waktu = new Date();
+    const namabulan = [
+        "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+        "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+    ];
+
+    document.getElementById("tanggal_masuk").innerHTML = waktu.getDate();
+    document.getElementById("bulan_masuk").innerHTML = namabulan[waktu.getMonth()];
+    document.getElementById("tahun_masuk").innerHTML = waktu.getFullYear();
+    document.getElementById("jam_masuk").innerHTML = waktu.getHours().toString().padStart(2, '0');
+    document.getElementById("menit_masuk").innerHTML = waktu.getMinutes().toString().padStart(2, '0');
+    document.getElementById("detik_masuk").innerHTML = waktu.getSeconds().toString().padStart(2, '0');
+
+    setTimeout(waktuMasuk, 1000);
+}
+
+window.setTimeout("waktuKeluar()", 1000);
+
+function waktuKeluar() {
+    const waktu = new Date();
+
+    const namabulan = [
+        "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+        "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+    ];
+
+    document.getElementById("tanggal_keluar").innerHTML = waktu.getDate();
+    document.getElementById("bulan_keluar").innerHTML = namabulan[waktu.getMonth()];
+    document.getElementById("tahun_keluar").innerHTML = waktu.getFullYear();
+    document.getElementById("jam_keluar").innerHTML = waktu.getHours().toString().padStart(2, '0');
+    document.getElementById("menit_keluar").innerHTML = waktu.getMinutes().toString().padStart(2, '0');
+    document.getElementById("detik_keluar").innerHTML = waktu.getSeconds().toString().padStart(2, '0');
+
+    setTimeout(waktuKeluar, 1000);
+}
+
+getLocation();
+
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+        alert('Browser Anda tidak mendukung');
+    }
+}
+
+function showPosition(position) {
+    $('#latitude_pegawai').val(position.coords.latitude);
+    $('#longitude_pegawai').val(position.coords.longitude);
+}
+</script>
 
 <?php include('../layout/footer.php'); ?>

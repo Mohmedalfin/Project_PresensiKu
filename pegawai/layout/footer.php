@@ -48,6 +48,8 @@
 <script src="<?= base_url('presensi/libs/jsvectormap/dist/jsvectormap.min.js?1738096685') ?>" defer></script>
 <script src="<?= base_url('presensi/libs/jsvectormap/dist/maps/world.js?1738096685') ?>" defer></script>
 <script src="<?= base_url('presensi/libs/jsvectormap/dist/maps/world-merc.js?1738096685') ?>" defer></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <!-- Tabler Core -->
 <script src="<?= base_url('presensi/js/tabler.min.js?1738096685') ?>" defer></script>
 <script src="<?= base_url('presensi/js/demo.min.js?1738096685') ?>" defer></script>

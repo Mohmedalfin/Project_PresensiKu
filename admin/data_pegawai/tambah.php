@@ -74,7 +74,7 @@ if (isset($_POST['submit'])) {
         $ukuran_file = $file['size'];
         $ekstensi = strtolower(pathinfo($nama_file, PATHINFO_EXTENSION));
         $ekstensi_diperbolehkan = ['jpg', 'jpeg', 'png'];
-        $maks_ukuran = 2 * 1024 * 1024; // 2MB
+        $maks_ukuran = 10 * 1024 * 1024; // 2MB
 
         if (!in_array($ekstensi, $ekstensi_diperbolehkan)) {
             $pesan_kesalahan[] = "Ekstensi file harus jpg, jpeg, atau png.";
@@ -136,12 +136,12 @@ if (isset($_POST['submit'])) {
                                 <label for="" class="mb-1">Nama</label>
                                 <input type="text" class="form-control" name="name" id="name" value="<?php if (isset($_POST['name']))
                                     echo $_POST['name'] ?>" placeholder="Masukkan name" required>
-                            </div>
-                            <div class="md-3 mt-2">
-                                <label for="" class="mb-1">Jenis Kelamin</label>
-                                <select name="jenis_kelamin" class="form-control">
-                                    <option value="">--- Jenis Kelamin ---</option>
-                                    <option <?php if (isset($_POST['jenis_kelamin']) && $_POST['jenis_kelamin'] == 'Laki-Laki') {
+                                </div>
+                                <div class="md-3 mt-2">
+                                    <label for="" class="mb-1">Jenis Kelamin</label>
+                                    <select name="jenis_kelamin" class="form-control">
+                                        <option value="">--- Jenis Kelamin ---</option>
+                                        <option <?php if (isset($_POST['jenis_kelamin']) && $_POST['jenis_kelamin'] == 'Laki-Laki') {
                                     echo 'selected';
                                 } ?> value="Laki-Laki">
                                         Laki-Laki
@@ -157,18 +157,18 @@ if (isset($_POST['submit'])) {
                                 <label for="" class="mb-1">Alamat</label>
                                 <input type="text" class="form-control" name="alamat" id="alamat" value="<?php if (isset($_POST['alamat']))
                                     echo $_POST['alamat'] ?>" placeholder="Masukkan alamat" required>
-                            </div>
-                            <div class="md-3 mt-2">
-                                <label for="" class="mb-1">No. Handphone</label>
-                                <input type="text" class="form-control" name="no_handphone" id="no_handphone" value="<?php if (isset($_POST['no_handphone']))
+                                </div>
+                                <div class="md-3 mt-2">
+                                    <label for="" class="mb-1">No. Handphone</label>
+                                    <input type="text" class="form-control" name="no_handphone" id="no_handphone" value="<?php if (isset($_POST['no_handphone']))
                                     echo $_POST['no_handphone'] ?>" placeholder="Masukkan no handphone" required>
-                            </div>
+                                </div>
 
-                            <div class="md-3 mt-2">
-                                <label for="" class="mb-1">Jabatan</label>
-                                <select name="jabatan" class="form-control">
-                                    <option value="">--- Pilih Jabatan---</option>
-                                    <?php
+                                <div class="md-3 mt-2">
+                                    <label for="" class="mb-1">Jabatan</label>
+                                    <select name="jabatan" class="form-control">
+                                        <option value="">--- Pilih Jabatan---</option>
+                                        <?php
                                 $ambil_jabatan = mysqli_query($connection, "SELECT * FROM jabatan ORDER BY jabatan ASC");
                                 while ($jabatan = mysqli_fetch_assoc($ambil_jabatan)) {
                                     $nama_jabatan = $jabatan['jabatan'];
@@ -210,22 +210,22 @@ if (isset($_POST['submit'])) {
                                 <label for="" class="mb-1">Username</label>
                                 <input type="text" class="form-control" name="username" id="username" value="<?php if (isset($_POST['username']))
                                     echo $_POST['username'] ?>" placeholder="Masukkan Username" required>
-                            </div>
-                            <div class="md-3 mt-2">
-                                <label for="" class="mb-1">Password</label>
-                                <input type="password" class="form-control" name="password" id="password"
-                                    placeholder=" Masukkan password" required>
-                            </div>
-                            <div class="md-3 mt-2">
-                                <label for="" class="mb-1">Confirm Password</label>
-                                <input type="password" class="form-control" name="password" id="password"
-                                    placeholder=" Ulangi password" required>
-                            </div>
-                            <div class="md-3 mt-2">
-                                <label for="" class="mb-1">Status</label>
-                                <select name="status" class="form-control">
-                                    <option value="">--- Status pegawai---</option>
-                                    <option <?php if (isset($_POST['status']) && $_POST['status'] == 'Aktif') {
+                                </div>
+                                <div class="md-3 mt-2">
+                                    <label for="" class="mb-1">Password</label>
+                                    <input type="password" class="form-control" name="password" id="password"
+                                        placeholder=" Masukkan password" required>
+                                </div>
+                                <div class="md-3 mt-2">
+                                    <label for="" class="mb-1">Confirm Password</label>
+                                    <input type="password" class="form-control" name="password" id="password"
+                                        placeholder=" Ulangi password" required>
+                                </div>
+                                <div class="md-3 mt-2">
+                                    <label for="" class="mb-1">Status</label>
+                                    <select name="status" class="form-control">
+                                        <option value="">--- Status pegawai---</option>
+                                        <option <?php if (isset($_POST['status']) && $_POST['status'] == 'Aktif') {
                                     echo 'selected';
                                 } ?> value="Aktif">
                                         Aktif
