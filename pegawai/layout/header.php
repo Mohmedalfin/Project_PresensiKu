@@ -1,4 +1,6 @@
-<?php require_once('../../config.php') ?>
+<?php
+global $judul;
+require_once('../../config.php') ?>
 
 <!doctype html>
 <!--
@@ -15,7 +17,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>PresensiKu</title>
+    <title>
+        <?= $judul ?>
+    </title>
     <!-- CSS files -->
     <link href="<?= base_url('presensi/css/tabler.min.css?1738096685') ?> " rel="stylesheet" />
     <link href="<?= base_url('presensi/css/tabler-vendors.min.css?1738096685') ?> " rel="stylesheet" />
@@ -219,8 +223,8 @@
                         <div class="row flex-fill align-items-center">
                             <div class="col">
                                 <ul class="navbar-nav">
-                                    <li class="nav-item active">
-                                        <a class="nav-link" href="./">
+                                    <li class="nav-item ">
+                                        <a class="nav-link" href="<?= base_url('pegawai/home/home.php') ?>">
                                             <span class="nav-link-icon d-md-none d-lg-inline-block">
                                                 <!-- Download SVG icon from http://tabler.io/icons/icon/home -->
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -238,7 +242,8 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="./form-elements.html">
+                                        <a class="nav-link"
+                                            href="<?= base_url('pegawai/presensi/rekap_presensi.php') ?>">
                                             <span class="nav-link-icon d-md-none d-lg-inline-block">
                                                 <!-- Download SVG icon from http://tabler.io/icons/icon/checkbox -->
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -329,7 +334,7 @@
                     <div class="row g-2 align-items-center">
                         <div class="col">
                             <h2 class="page-title">
-                                Dashboard
+                                <?= $judul; ?>
                             </h2>
                         </div>
 

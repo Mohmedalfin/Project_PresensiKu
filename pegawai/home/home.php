@@ -9,6 +9,7 @@ if (!isset($_SESSION["login"])) {
     exit;
 }
 
+$judul = "Home";
 include('../layout/header.php');
 include_once('../../config.php');
 

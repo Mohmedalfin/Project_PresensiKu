@@ -8,9 +8,9 @@
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
 <style>
-#map {
-    height: 338px;
-}
+    #map {
+        height: 338px;
+    }
 </style>
 
 
@@ -26,7 +26,7 @@ if (!isset($_SESSION["login"])) {
     exit;
 }
 
-
+$judul = "Presensi Keluar";
 include('../layout/header.php');
 include_once('../../config.php');
 
@@ -54,101 +54,101 @@ $jarak_meter = $jarak_km * 1000;
 ?>
 
 <?php if ($jarak_meter > $radius) { ?>
-<?=
-    $_SESSION['Gagal'] = "Anda berada di luar area kantor";
+    <?=
+        $_SESSION['Gagal'] = "Anda berada di luar area kantor";
     header("Location: ../home/home.php");
     exit;
 ?>
 <?php } else { ?>
-<div class="page-body">
-    <div class="container-xl">
-        <div class="row">
-            <!-- Kolom Google Maps -->
-            <div class="col-md-6 ">
-                <div class="card">
-                    <div class="card-body">
-                        <div id="map"></div>
+    <div class="page-body">
+        <div class="container-xl">
+            <div class="row">
+                <!-- Kolom Google Maps -->
+                <div class="col-md-6 ">
+                    <div class="card">
+                        <div class="card-body">
+                            <div id="map"></div>
 
+                        </div>
                     </div>
                 </div>
-            </div>
-            <!-- Kolom Kamera dan Informasi -->
-            <div class="col-md-6">
-                <div class="card text-center rounded">
-                    <div class="card-body  mt-2" style="margin: auto;">
-                        <input type="hidden" id="id" value="<?= $id ?>">
-                        <input type="hidden" id="tanggal_keluar" value="<?= $tanggal_keluar ?>">
-                        <input type="hidden" id="jam_keluar" value="<?= $jam_keluar ?>">
-                        <div id="my_camera"></div>
-                        <div id="my_result"></div>
-                        <div class="mt-3">
-                            <?= date('d F Y', strtotime($tanggal_keluar)) . ' - ' . $jam_keluar ?>
+                <!-- Kolom Kamera dan Informasi -->
+                <div class="col-md-6">
+                    <div class="card text-center rounded">
+                        <div class="card-body  mt-2" style="margin: auto;">
+                            <input type="hidden" id="id" value="<?= $id ?>">
+                            <input type="hidden" id="tanggal_keluar" value="<?= $tanggal_keluar ?>">
+                            <input type="hidden" id="jam_keluar" value="<?= $jam_keluar ?>">
+                            <div id="my_camera"></div>
+                            <div id="my_result"></div>
+                            <div class="mt-3">
+                                <?= date('d F Y', strtotime($tanggal_keluar)) . ' - ' . $jam_keluar ?>
+                            </div>
+                            <button class="btn btn-danger mt-3" id="ambil-foto">Keluar</button>
                         </div>
-                        <button class="btn btn-danger mt-3" id="ambil-foto">Keluar</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<script language="JavaScript">
-Webcam.set({
-    width: 320,
-    height: 240,
-    dest_width: 320,
-    dest_height: 240,
-    image_format: 'jpeg',
-    jpeg_quality: 90,
-    force_flash: false
-});
-Webcam.attach('#my_camera');
+    <script language="JavaScript">
+        Webcam.set({
+            width: 320,
+            height: 240,
+            dest_width: 320,
+            dest_height: 240,
+            image_format: 'jpeg',
+            jpeg_quality: 90,
+            force_flash: false
+        });
+        Webcam.attach('#my_camera');
 
-document.getElementById('ambil-foto').addEventListener('click', function() {
+        document.getElementById('ambil-foto').addEventListener('click', function () {
 
-    let id = document.getElementById('id').value;
-    let tanggal_keluar = document.getElementById('tanggal_keluar').value;
-    let jam_keluar = document.getElementById('jam_keluar').value;
+            let id = document.getElementById('id').value;
+            let tanggal_keluar = document.getElementById('tanggal_keluar').value;
+            let jam_keluar = document.getElementById('jam_keluar').value;
 
-    Webcam.snap(function(data_uri) {
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-            document.getElementById('my_result').innerHTML = '<img src="' + data_uri + '"/>';
-            if (xhttp.readyState == 4 && xhttp.status == 200) {
-                window.location.href = '../home/home.php';
-            }
-        };
-        xhttp.open("POST", "presensi_keluar_aksi.php", true);
-        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhttp.send(
-            'photo=' + encodeURIComponent(data_uri) +
-            '&id=' + encodeURIComponent(id) +
-            '&tanggal_keluar=' + encodeURIComponent(tanggal_keluar) +
-            '&jam_keluar=' + encodeURIComponent(jam_keluar)
-        );
-    });
-});
-// leaflet js
-let latitude_ktr = <?= $latitude_kantor ?>;
-let longitude_ktr = <?= $longitude_kantor ?>;
-let latitude_peg = <?= $latitude_pegawai ?>;
-let longitude_peg = <?= $longitude_pegawai ?>;
-let map = L.map('map').setView([latitude_ktr, longitude_ktr], 13);
-L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-}).addTo(map);
+            Webcam.snap(function (data_uri) {
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function () {
+                    document.getElementById('my_result').innerHTML = '<img src="' + data_uri + '"/>';
+                    if (xhttp.readyState == 4 && xhttp.status == 200) {
+                        window.location.href = '../home/home.php';
+                    }
+                };
+                xhttp.open("POST", "presensi_keluar_aksi.php", true);
+                xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhttp.send(
+                    'photo=' + encodeURIComponent(data_uri) +
+                    '&id=' + encodeURIComponent(id) +
+                    '&tanggal_keluar=' + encodeURIComponent(tanggal_keluar) +
+                    '&jam_keluar=' + encodeURIComponent(jam_keluar)
+                );
+            });
+        });
+        // leaflet js
+        let latitude_ktr = <?= $latitude_kantor ?>;
+        let longitude_ktr = <?= $longitude_kantor ?>;
+        let latitude_peg = <?= $latitude_pegawai ?>;
+        let longitude_peg = <?= $longitude_pegawai ?>;
+        let map = L.map('map').setView([latitude_ktr, longitude_ktr], 13);
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
 
-var marker = L.marker([latitude_ktr, longitude_ktr]).addTo(map);
+        var marker = L.marker([latitude_ktr, longitude_ktr]).addTo(map);
 
-var circle = L.circle([latitude_peg, longitude_peg], {
-    color: 'red',
-    fillColor: '#f03',
-    fillOpacity: 0.5,
-    radius: 500
-}).addTo(map).bindPopup("Lokasi anda saat ini");
-</script>
-<!-- <a href="javascript:void(take_snapshot())">Take Snapshot</a> -->
+        var circle = L.circle([latitude_peg, longitude_peg], {
+            color: 'red',
+            fillColor: '#f03',
+            fillOpacity: 0.5,
+            radius: 500
+        }).addTo(map).bindPopup("Lokasi anda saat ini");
+    </script>
+    <!-- <a href="javascript:void(take_snapshot())">Take Snapshot</a> -->
 <?php } ?>
 
 <?php include('../layout/footer.php'); ?>

@@ -26,11 +26,6 @@
                         Copyright &copy; 2025
                         <a href="." class="link-secondary">PresensiKu.</a>
                     </li>
-                    <li class="list-inline-item">
-                        <a href="./changelog.html" class="link-secondary" rel="noopener">
-                            Kelompok 1
-                        </a>
-                    </li>
                 </ul>
             </div>
         </div>
@@ -55,36 +50,36 @@
 <!-- Alert berhasil -->
 <?php if (isset($_SESSION['berhasil'])): ?>
 
-<script>
-const berhasil = Swal.mixin({
-    toast: true,
-    position: "top",
-    showConfirmButton: false,
-    timer: 3000,
-    timerProgressBar: true,
-    didOpen: (toast) => {
-        toast.onmouseenter = Swal.stopTimer;
-        toast.onmouseleave = Swal.resumeTimer;
-    }
-});
-berhasil.fire({
-    icon: "success",
-    title: "<?= $_SESSION['berhasil'] ?>"
-});
-</script>
-<?php unset($_SESSION['berhasil']); ?>
+    <script>
+        const berhasil = Swal.mixin({
+            toast: true,
+            position: "top",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+            }
+        });
+        berhasil.fire({
+            icon: "success",
+            title: "<?= $_SESSION['berhasil'] ?>"
+        });
+    </script>
+    <?php unset($_SESSION['berhasil']); ?>
 <?php endif; ?>
 
 <!-- Gagal Alert -->
 <?php if (isset($_SESSION['Gagal'])) { ?>
-<script>
-Swal.fire({
-    icon: "error",
-    title: "Oops..",
-    text: "<?= $_SESSION['Gagal'] ?>",
-});
-</script>
-<?php unset($_SESSION['Gagal']); ?>
+    <script>
+        Swal.fire({
+            icon: "error",
+            title: "Oops..",
+            text: "<?= $_SESSION['Gagal'] ?>",
+        });
+    </script>
+    <?php unset($_SESSION['Gagal']); ?>
 <?php } ?>
 </body>
 
