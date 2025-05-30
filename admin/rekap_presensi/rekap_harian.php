@@ -52,10 +52,10 @@ if (empty($_GET['tanggal_dari'])) {
         </div>
 
         <?php if (empty($_GET['tanggal_dari'])): ?>
-            <span>Rekap Presensi Tanggal: <?= date('d F Y') ?></span>
+        <span>Rekap Presensi Tanggal: <?= date('d F Y') ?></span>
         <?php else: ?>
-            <span>Rekap Presensi Tanggal:
-                <?= date('d F Y', strtotime($_GET['tanggal_dari'])) . ' sampai ' . date('d F Y', strtotime($_GET['tanggal_sampai'])) ?></span>
+        <span>Rekap Presensi Tanggal:
+            <?= date('d F Y', strtotime($_GET['tanggal_dari'])) . ' sampai ' . date('d F Y', strtotime($_GET['tanggal_sampai'])) ?></span>
         <?php endif; ?>
 
         <table class="table table-bordered mt-2">
@@ -71,12 +71,12 @@ if (empty($_GET['tanggal_dari'])) {
             </tr>
 
             <?php if (mysqli_num_rows($result) === 0) { ?>
-                <tr class="text-center">
-                    <td colspan="6">Data rekap presensi masih kosong</td>
-                </tr>
+            <tr class="text-center">
+                <td colspan="6">Data rekap presensi masih kosong</td>
+            </tr>
             <?php } else { ?>
 
-                <?php $no = 1;
+            <?php $no = 1;
                 while ($rekap = mysqli_fetch_array($result)):
 
                     // Menghitung jam kerja
@@ -109,29 +109,29 @@ if (empty($_GET['tanggal_dari'])) {
                     $selisih_menit_terlambat = floor($terlambat / 60);
                     ?>
 
-                    <tr class="text-center">
-                        <td><?= $no++ ?></td>
-                        <td><?= $rekap['name']; ?></td>
-                        <td><?= date('d F Y', strtotime($rekap['tanggal_masuk'])) ?></td>
-                        <td><?= $rekap['jam_masuk'] ?></td>
-                        <td><?= $rekap['jam_keluar'] ?></td>
-                        <td>
-                            <?php if ($rekap['tanggal_keluar'] == '0000-00-00'): ?>
-                                <span>0 Jam 0 Menit</span>
-                            <?php else: ?>
-                                <?= $total_jam_kerja . ' Jam ' . $selisih_menit_kerja . ' Menit' ?>
-                            <?php endif; ?>
-                        </td>
-                        <td>
-                            <?php if ($total_jam_terlambat < 0): ?>
-                                <span class="badge bg-success">On Time</span>
-                            <?php else: ?>
-                                <?= $total_jam_terlambat . ' Jam ' . $selisih_menit_terlambat . ' Menit' ?>
-                            <?php endif; ?>
+            <tr class="text-center">
+                <td><?= $no++ ?></td>
+                <td><?= $rekap['name']; ?></td>
+                <td><?= date('d F Y', strtotime($rekap['tanggal_masuk'])) ?></td>
+                <td><?= $rekap['jam_masuk'] ?></td>
+                <td><?= $rekap['jam_keluar'] ?></td>
+                <td>
+                    <?php if ($rekap['tanggal_keluar'] == '0000-00-00'): ?>
+                    <span>0 Jam 0 Menit</span>
+                    <?php else: ?>
+                    <?= $total_jam_kerja . ' Jam ' . $selisih_menit_kerja . ' Menit' ?>
+                    <?php endif; ?>
+                </td>
+                <td>
+                    <?php if ($total_jam_terlambat < 0): ?>
+                    <span class="badge bg-success">On Time</span>
+                    <?php else: ?>
+                    <?= $total_jam_terlambat . ' Jam ' . $selisih_menit_terlambat . ' Menit' ?>
+                    <?php endif; ?>
 
-                        </td>
-                    </tr>
-                <?php endwhile; ?>
+                </td>
+            </tr>
+            <?php endwhile; ?>
             <?php } ?>
         </table>
     </div>
@@ -140,20 +140,25 @@ if (empty($_GET['tanggal_dari'])) {
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Modal title</h5>
+                <h5 class="modal-title">Export Excel Rekap Presensi Harian</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci animi
-                beatae delectus
-                deleniti dolorem eveniet facere fuga iste nemo nesciunt nihil odio
-                perspiciatis, quia quis
-                reprehenderit sit tempora totam unde.
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Save changes</button>
-            </div>
+            <form method="POST" action="<?= base_url('admin/rekap_presensi/rekap_harian_excel.php') ?>">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="">Tanggal Awal</label>
+                        <input type="date" class="form-control" name="tanggal_dari">
+                    </div>
+                    <div class="mb-3">
+                        <label for="">Tanggal Akhir</label>
+                        <input type="date" class="form-control" name="tanggal_sampai">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Export</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
