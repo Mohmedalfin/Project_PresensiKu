@@ -15,7 +15,6 @@ require_once('../../config.php');
 $result = mysqli_query($connection, "SELECT users.id_pegawai, users.username, users.password, users.status, users.role, pegawai.* FROM users JOIN pegawai ON users.id_pegawai = pegawai.id");
 ?>
 
-
 <!-- Page body -->
 <div class="page-body">
     <div class="container-xl">

@@ -81,6 +81,54 @@
     </script>
     <?php unset($_SESSION['Gagal']); ?>
 <?php } ?>
+
+
+<!-- alert validasi -->
+<?php if (isset($_SESSION['validasi'])): ?>
+
+    <script>
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "top",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+            }
+        });
+        Toast.fire({
+            icon: "error",
+            title: "<?= $_SESSION['validasi'] ?>"
+        });
+    </script>
+
+    <?php unset($_SESSION['validasi']); ?>
+
+<?php endif; ?>
+
+<!-- hapus -->
+<script>
+    $('.tombol-hapus').on('click', function () {
+        var getlink = $(this).attr('href');
+        Swal.fire({
+            title: "Yakin hapus?",
+            text: "Data yang sudah dihapus tidak bisa dikembalikan",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Ya, dihapus!",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = getlink
+            }
+        });
+        return false;
+    });
+</script>
+
 </body>
 
 </html>

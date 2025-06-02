@@ -109,7 +109,6 @@ berhasil.fire({
 <?php endif; ?>
 
 <!-- alert konfirmasi hapus -->
-
 <script>
 $('.tombol-hapus').on('click', function() {
     var getlink = $(this).attr('href');
