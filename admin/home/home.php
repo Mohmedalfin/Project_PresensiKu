@@ -10,9 +10,38 @@ if (!isset($_SESSION["login"])) {
 
 $judul = "Home";
 include('../layout/header.php');
+require_once('../../config.php'); // Pastikan koneksi `$connection` tersedia
 
-$pegawai = mysqli_query($connection, "SELECT pegawai.*, users.status FROM pegawai JOIN users ON pegawai.id = users.id_pegawai WHERE status = 'Aktif'");
+// Total pegawai aktif
+$pegawai = mysqli_query($connection, "SELECT pegawai.*, users.status 
+                                      FROM pegawai 
+                                      JOIN users ON pegawai.id = users.id_pegawai 
+                                      WHERE status = 'Aktif'");
 $total_pegawai = mysqli_num_rows($pegawai);
+
+
+$tanggal_hari_ini = date('Y-m-d');
+
+// jumlah Sakit
+$query = mysqli_query($connection, "SELECT COUNT(*) as jumlah_sakit 
+                                    FROM ketidakhadiran 
+                                    WHERE tanggal = '$tanggal_hari_ini'");
+$jumlah_sakit = mysqli_fetch_assoc($query)['jumlah_sakit'];
+
+// Total kehadiran hari ini
+$stmt = $connection->prepare("SELECT COUNT(DISTINCT id_pegawai) as total_hadir 
+                              FROM presensi 
+                              WHERE tanggal_masuk = ?");
+$stmt->bind_param("s", $tanggal_hari_ini);
+$stmt->execute();
+$result = $stmt->get_result();
+$data = $result->fetch_assoc();
+$total_hadir = $data['total_hadir'];
+
+
+// Jumlah Alpha
+$jumlah_alpha = $total_pegawai - ($total_hadir + $jumlah_sakit);
+
 ?>
 
 <!-- Page body -->
@@ -77,7 +106,7 @@ $total_pegawai = mysqli_num_rows($pegawai);
                                             Jumlah Hadir
                                         </div>
                                         <div class="text-secondary">
-                                            0 Pegawai
+                                            <?= $total_hadir ?> Pegawai
                                         </div>
                                     </div>
                                 </div>
@@ -111,7 +140,7 @@ $total_pegawai = mysqli_num_rows($pegawai);
                                             Jumlah Alpa
                                         </div>
                                         <div class="text-secondary">
-                                            0 Pegawai
+                                            <?= $jumlah_alpha ?> Pegawai
                                         </div>
                                     </div>
                                 </div>
@@ -142,7 +171,7 @@ $total_pegawai = mysqli_num_rows($pegawai);
                                             Jumlah Sakit, Izin & Cuti
                                         </div>
                                         <div class="text-secondary">
-                                            0 Pegawai
+                                            <?= $jumlah_sakit ?> Pegawai
                                         </div>
                                     </div>
                                 </div>

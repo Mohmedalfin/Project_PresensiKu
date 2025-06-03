@@ -105,7 +105,6 @@ if (isset($_POST['edit'])) {
         header("Location: " . base_url('admin/data_pegawai/pegawai.php'));
         exit();
     }
-
 }
 
 $id = isset($_GET['id']) ? $_GET['id'] : $_POST['id'];
@@ -124,7 +123,6 @@ while ($pegawai = mysqli_fetch_array($result)) {
     $role = $pegawai['role'];
     $foto = $pegawai['foto'];
 }
-
 ?>
 
 <!-- Page body -->

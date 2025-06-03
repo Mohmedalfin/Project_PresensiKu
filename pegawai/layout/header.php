@@ -31,7 +31,7 @@ require_once('../../config.php') ?>
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <style>
-        @import url('https://rsms.me/inter/inter.css');
+    @import url('https://rsms.me/inter/inter.css');
     </style>
 </head>
 
@@ -207,10 +207,12 @@ require_once('../../config.php') ?>
                             </div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                            <a href="#" class="dropdown-item">Profile</a>
-                            <a href="./profile.html" class="dropdown-item">Ubah Password</a>
+                            <a href="<?= base_url('pegawai/fitur_lainya/profile.php') ?>"
+                                class="dropdown-item">Profil</a>
+                            <a href="<?= base_url('pegawai/fitur_lainya/ubah_password.php') ?>"
+                                class="dropdown-item">Ubah
+                                Pasword</a>
                             <a href="<?= base_url('auth/logout.php') ?>" class="dropdown-item">Logout</a>
-
                         </div>
                     </div>
                 </div>

@@ -3,14 +3,6 @@ global $judul;
 require_once('../../config.php') ?>
 
 <!doctype html>
-<!--
-* Tabler - Premium and Open Source dashboard template with responsive and high quality UI.
-* @version 1.0.0
-* @link https://tabler.io
-* Copyright 2018-2025 The Tabler Authors
-* Copyright 2018-2025 codecalm.net Paweł Kuna
-* Licensed under MIT (https://github.com/tabler/tabler/blob/master/LICENSE)
--->
 <html lang="en">
 
 <head>
@@ -200,13 +192,14 @@ require_once('../../config.php') ?>
                             <span class="avatar avatar-sm"
                                 style="background-image: url(./static/avatars/000m.jpg)"></span>
                             <div class="d-none d-xl-block ps-2">
-                                <div>Paweł Kuna</div>
-                                <div class="mt-1 small text-secondary">UI Designer</div>
+                                <div><?= $_SESSION['name'] ?></div>
+                                <div class="mt-1 small text-secondary"><?= $_SESSION['jabatan'] ?></div>
                             </div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                            <a href="#" class="dropdown-item">Profil</a>
-                            <a href="./profile.html" class="dropdown-item">Ubah Pasword</a>
+                            <a href="<?= base_url('admin/fitur_lainya/profile.php') ?>" class="dropdown-item">Profil</a>
+                            <a href="<?= base_url('admin/fitur_lainya/ubah_password.php') ?>" class="dropdown-item">Ubah
+                                Pasword</a>
                             <a href="<?= base_url('auth/logout.php') ?>" class="dropdown-item">Logout</a>
 
                         </div>
