@@ -38,7 +38,7 @@ $result = mysqli_query($connection, "SELECT users.id_pegawai, users.username, us
             </tr>
             <?php else: ?>
             <?php $no = 1;
-                while ($pegawai = mysqli_fetch_array($result)): ?>
+                while ($pegawai = mysqli_fetch_array($result)):?>
 
             <tr class="text-center">
                 <td><?= $no++ ?></td>

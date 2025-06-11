@@ -126,12 +126,6 @@ if (isset($_POST['submit'])) {
                 <div class="col-md-6">
                     <div class="card">
                         <div class="card-body">
-
-                            <!-- <div class="md-3">
-                                <label for="" class="mb-1">NIP</label>
-                                <input type="text" class="form-control" name="nip" id="nip" value="<?= $nip_baru ?>"
-                                    placeholder="Masukka NIP" required>
-                            </div> -->
                             <div class="md-3 mt-2">
                                 <label for="" class="mb-1">Nama</label>
                                 <input type="text" class="form-control" name="name" id="name" value="<?php if (isset($_POST['name']))

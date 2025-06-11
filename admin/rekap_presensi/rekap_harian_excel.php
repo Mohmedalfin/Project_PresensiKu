@@ -37,7 +37,7 @@ $sheet->setCellValue('E5', 'JAM MASUK');
 $sheet->setCellValue('F5', 'TANGGAL KELUAR');
 $sheet->setCellValue('G5', 'JAM KELUAR');
 $sheet->setCellValue('H5', 'TOTAL JAM KERJA');
-$sheet->setCellValue('I5', 'TOTAL JAM TERLAMBAR');
+$sheet->setCellValue('I5', 'TOTAL JAM TERLAMBAT');
 
 // Menyatukan baris
 $sheet->mergeCells('A1:F1');

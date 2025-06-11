@@ -22,7 +22,7 @@ $total_pegawai = mysqli_num_rows($pegawai);
 
 $tanggal_hari_ini = date('Y-m-d');
 
-// jumlah Sakit
+// jumlah Sakit, Izin dan Cuti
 $query = mysqli_query($connection, "SELECT COUNT(*) as jumlah_sakit 
                                     FROM ketidakhadiran 
                                     WHERE tanggal = '$tanggal_hari_ini'");
@@ -37,7 +37,6 @@ $stmt->execute();
 $result = $stmt->get_result();
 $data = $result->fetch_assoc();
 $total_hadir = $data['total_hadir'];
-
 
 // Jumlah Alpha
 $jumlah_alpha = $total_pegawai - ($total_hadir + $jumlah_sakit);
